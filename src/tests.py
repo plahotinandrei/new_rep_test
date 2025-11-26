@@ -58,6 +58,11 @@ class FlaskAppTests(unittest.TestCase):
                           data=json.dumps({'name': 'Den', 'age': '100'}))
         self.assertEqual(r.json, {'status': 'bad input'})
         self.assertEqual(r.status_code, 400)
+
+    def test_add_success(self):
+        r = self.app.get('/add?a=2&b=3')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data, b'5.0')
 ##
 ###
 # if __name__ == '__main__':

@@ -16,6 +16,16 @@ def validate_post_data(data: dict) -> bool:
 def hello():
     return 'Hello World!'
 
+@app.route('/add', methods=['GET'])
+def add():
+    try:
+        a = float(request.args.get('a'))
+        b = float(request.args.get('b'))
+    except (TypeError, ValueError):
+        return 'a и b - НЕ числа'
+    return str(a + b)
+
+
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     """
