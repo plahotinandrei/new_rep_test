@@ -63,6 +63,31 @@ class FlaskAppTests(unittest.TestCase):
         r = self.app.get('/add?a=2&b=3')
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.data, b'5.0')
+
+    def test_multiply_success(self):
+        r = self.app.get('/multiply?a=2&b=6')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data, b'12.0')
+
+    def test_multiply_not_numbers(self):
+        r = self.app.get('/multiply?a=a&b=b')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data.decode('utf-8'), 'a и b - НЕ числа')
+
+    def test_divide_success(self):
+        r = self.app.get('/divide?a=9&b=3')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data, b'3.0')
+
+    def test_divide_not_numbers(self):
+        r = self.app.get('/divide?a=abc&b=xyz')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data.decode('utf-8'), 'a и b - НЕ числа')
+
+    def test_divide_by_zero(self):
+        r = self.app.get('/divide?a=10&b=0')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.data.decode('utf-8'), 'Деление на ноль невозможно')
 ##
 ###
 if __name__ == '__main__':
